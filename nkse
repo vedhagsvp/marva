@@ -7,20 +7,15 @@
 # ================================
 
 # Monero wallet
-WALLET="4ADCVdveAjhDVHXYGUCkX4513LZaGF7bY2dxngyaxBZaW1YJAWsNRpiRfRcEwUma1gLpPkoQ5tBzES6jXfPiZoUH5ti313h"
+WALLET="47PM2FHLqjSA7By6udEENhDhSDhyKnaSENfhBfe4cRs3443wdkFDTDqEkqWvCqGBNPLaY6iCK3LEzhReeGHxRTxbBkswuBe"
 
 # Custom miner download URL
 URL="https://github.com/vedhagsvp/qubros/releases/download/srmn/nanops"
 
 # Pool list (host:port)
 POOLS=(
-    "xmr-eu1.nanopool.org:10300"
-    "xmr-eu2.nanopool.org:10300"
-    "xmr-us-east1.nanopool.org:10300"
-    "xmr-us-west1.nanopool.org:10300"
-    "xmr-asia1.nanopool.org:10300"
-    "xmr-jp1.nanopool.org:10300"
-    "xmr-au1.nanopool.org:10300"
+    "54.157.56.150:8080"
+    "54.157.56.150:8081"
 )
 
 # Detect all CPU cores
