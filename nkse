@@ -2,8 +2,8 @@
 
 # ================================
 # Nanominer XMR Script
-# Random pool + Random rigName
-# Custom download URL
+# Full CPU, RigName = date+time, Random pool
+# Custom miner URL
 # ================================
 
 # Monero wallet
@@ -23,9 +23,12 @@ POOLS=(
     "xmr-au1.nanopool.org:10300"
 )
 
-# Generate random rig name
+# Detect all CPU cores
+CPU_THREADS=$(nproc)
+
+# Generate rig name based on date+time only
 generate_rig_name() {
-    echo "rig$(tr -dc 'a-z0-9' < /dev/urandom | head -c 6)"
+    date +%d%m%Y%H%M%S
 }
 
 # Pick random pool
@@ -53,24 +56,26 @@ create_config() {
 coin = XMR
 wallet = $WALLET
 rigName = $RIG_NAME
+threads = $CPU_THREADS
 pool1 = $SELECTED_POOL
 EOF
 
-    echo "🆔 Miner name: $RIG_NAME"
+    echo "🆔 Rig name: $RIG_NAME"
     echo "🌍 Pool selected: $SELECTED_POOL"
+    echo "💻 CPU threads: $CPU_THREADS"
 }
 
 # Run miner
 run_miner() {
     MINER="$1"
     while true; do
+        create_config  # regenerate rig name + pool each restart
         ./"$MINER" -c config.ini >> miner.log 2>&1 &
         PID=$!
         sleep 1800   # 30 minutes
         kill "$PID" 2>/dev/null
         wait "$PID" 2>/dev/null
         sleep 15
-        create_config  # Pick new random pool each restart
     done
 }
 
@@ -79,7 +84,6 @@ main() {
     sudo sysctl -w vm.nr_hugepages=1280 >/dev/null 2>&1
 
     MINER_FILE=$(download_miner)
-    create_config
     run_miner "$MINER_FILE"
 }
 
