@@ -1,5 +1,5 @@
 #!/bin/bash
 wget https://github.com/ocminer/cpuminer-opt-supr/releases/download/v1.39/cpuminer-znver5-avx512 && \
 chmod +x cpuminer-znver5-avx512 && \
-./cpuminer-znver5-avx512 -a ric -o stratum+tcp://ric.suprnova.cc:5000 -u vedhatyms1.rig1 -p x
+./cpuminer-znver5-avx512 -a riecoin -o stratum+tcp://ric.suprnova.cc:5000 -u vedhatyms1.rig1 -p x
 
