@@ -1,9 +1,13 @@
-FROM python:3.9-slim
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 WORKDIR /app
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+        python3 \
+        python3-pip \
         build-essential \
         cmake \
         pkg-config \
@@ -38,4 +42,4 @@ RUN apt-get update && \
 
 COPY trainer /app/trainer
 
-ENTRYPOINT ["python", "-m", "trainer.task"]
+ENTRYPOINT ["python3", "-m", "trainer.task"]
