@@ -27,8 +27,9 @@ RUN apt-get update && \
         libprotobuf-dev \
         protobuf-compiler \
         libudev-dev \
-        libncurses5-dev \
-        libncursesw5-dev \
+        libncurses6 \
+        libncursesw6 \
+        libncurses-dev \
         libunbound-dev \
         liblmdb-dev \
         libminiupnpc-dev \
